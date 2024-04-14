@@ -7,7 +7,10 @@ from sklearn.model_selection import TimeSeriesSplit
 from ts_package.validation.metric import BusinessSimulation
 
 
-def get_time_series_cv_score(X: pd.DataFrame, y: pd.Series, model_parameters: dict, model_class: CatBoostRegressor):
+def get_time_series_cv_score(
+        X: pd.DataFrame, y: pd.Series, model_parameters: dict, model_class: CatBoostRegressor,
+        return_calibrated_model: CatBoostRegressor = False
+):
     """
     Perform time series cross-validation with specified model_parameters and model_class.
 
@@ -21,6 +24,8 @@ def get_time_series_cv_score(X: pd.DataFrame, y: pd.Series, model_parameters: di
         Parameters/hyperparameters to pass into model_class instance.
     model_class : CatBoostRegressor|other
         CatBoostRegressor class actually.
+    return_calibrated_model : CatBoostRegressor|other
+        Fitted CatBoostRegressor instance by time series cross validation.
     
     Returns
     -------
@@ -50,4 +55,6 @@ def get_time_series_cv_score(X: pd.DataFrame, y: pd.Series, model_parameters: di
         'mae_mean': np.mean(maes),
         'mae_std': np.std(maes)
     }
+    if return_calibrated_model:
+        return result, model_instance
     return result

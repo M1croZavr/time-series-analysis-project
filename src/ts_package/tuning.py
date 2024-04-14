@@ -29,7 +29,8 @@ def objective(trial: optuna.trial.Trial, X: pd.DataFrame, y: pd.Series):
         'min_data_in_leaf': trial.suggest_int('min_data_in_leaf', 1, 100),
         'random_strength': trial.suggest_float('random_strength', 0, 10),
         'random_state': 777,
-        'verbose': False
+        'verbose': False,
+        'cat_features': ['weekday', 'quarter']
     }
     cv_result = get_time_series_cv_score(X, y, parameters, CatBoostRegressor)
 
