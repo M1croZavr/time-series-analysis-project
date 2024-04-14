@@ -1,33 +1,39 @@
 import pandas as pd
 import scipy.stats as scs
-import seaborn as sns
 import statsmodels.api as sm
 from matplotlib import pyplot as plt
 
 
 def plot_decomposition(decomposition_result, date):
+    """Draw time series decomposition"""
     observed = decomposition_result.observed
     seasonal = decomposition_result.seasonal
     trend = decomposition_result.trend
     residuals = decomposition_result.resid
     
     plt.figure(figsize=(12, 14))
+
     plt.subplot(4, 1, 1)
     plt.title('Observed')
     plt.plot(date, observed)
+
     plt.subplot(4, 1, 2)
     plt.title('seasonal')
     plt.plot(date, seasonal)
+
     plt.subplot(4, 1, 3)
     plt.title('trend')
     plt.plot(date, trend)
+
     plt.subplot(4, 1, 4)
     plt.title('residuals')
-    plt.plot(date, residuals)
+    plt.scatter(date, residuals)
+
     return
 
 
 def tsplot(y, lags=None):
+    """Draw time series, acf, pacf, qq and probability plots"""
     if not isinstance(y, pd.Series):
         y = pd.Series(y)
     with plt.style.context('bmh'):    
@@ -52,4 +58,5 @@ def tsplot(y, lags=None):
         # График вероятности
         scs.probplot(y, sparams=(y.mean(), y.std()), plot=pp_ax)
         plt.tight_layout()
+        
     return
